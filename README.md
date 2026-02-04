@@ -14,18 +14,21 @@ The admin dashboard also features a management system for virtual photography po
 
 ### Installation
 
-1. **Clone the repository**
+1. **Fork the Repository**
+   Click the "Fork" button at the top right of this page to create your own copy of the repository.
+
+2. **Clone your forked repository**
    ```bash
    git clone https://github.com/yourusername/vippy.git
    cd vippy
    ```
 
-2. **Install Jekyll Dependencies**
+3. **Install Jekyll Dependencies**
    ```bash
    bundle install
    ```
 
-3. **Install Admin Panel Dependencies**
+4. **Install Admin Panel Dependencies**
    ```bash
    cd vippy-admin
    npm install
