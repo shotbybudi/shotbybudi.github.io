@@ -1,0 +1,21 @@
+// Catppuccin Mocha Syntax Highlighting
+.highlight {
+  background-color: #1e1e2e;
+  color: #cdd6f4;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.highlight .c, .highlight .cm, .highlight .cp, .highlight .c1, .highlight .cs { color: #6c7086; font-style: italic; } // Overlay0 - Comments
+.highlight .k, .highlight .kc, .highlight .kd, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kt { color: #cba6f7; font-weight: bold; } // Mauve - Keywords
+.highlight .o, .highlight .ow { color: #89b4fa; font-weight: bold; } // Blue - Operators
+.highlight .n, .highlight .nb, .highlight .bp { color: #cdd6f4; } // Text - Names
+.highlight .nf, .highlight .fm { color: #89b4fa; } // Blue - Functions
+.highlight .nc, .highlight .nn { color: #f9e2af; font-weight: bold; } // Yellow - Classes/Namespaces
+.highlight .s, .highlight .sa, .highlight .sb, .highlight .sc, .highlight .dl, .highlight .sd, .highlight .s2, .highlight .se, .highlight .sh, .highlight .si, .highlight .sx, .highlight .sr, .highlight .s1, .highlight .ss { color: #a6e3a1; } // Green - Strings
+.highlight .m, .highlight .mb, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .mo, .highlight .il { color: #fab387; } // Peach - Numbers
+.highlight .nt { color: #cba6f7; font-weight: bold; } // Mauve - Tags
+.highlight .na { color: #89b4fa; } // Blue - Attributes
+.highlight .err { color: #f38ba8; background-color: transparent; } // Red - Errors
+.highlight .gd { color: #f38ba8; background-color: rgba(243, 139, 168, 0.15); } // Red - Deleted
+.highlight .gi { color: #a6e3a1; background-color: rgba(166, 227, 161, 0.15); } // Green - Inserted

@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg navbar-themed">
+
+  <a class="navbar-brand" href="{{ site.baseurl }}/"><h5><b>{{ site.title }}</b></h5></a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fas fa-1x fa-bars text-themed"></i>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto">
+
+      {%- comment -%} Modules-based Navigation {%- endcomment -%}
+      {%- if site.site_modules -%}
+        {%- for module in site.site_modules -%}
+          {%- if module.enabled -%}
+            {%- if page.url contains module.url -%}
+              {%- assign active_status = "active" -%}
+            {%- else -%}
+              {%- assign active_status = "" -%}
+            {%- endif -%}
+
+            <a class="nav-item nav-link {{ active_status }}" href="{{ module.url | relative_url }}">{{ module.name }}</a>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- comment -%} Fallback to old page-based navigation if no modules defined {%- endcomment -%}
+        {%- assign html_pages = site.html_pages | sort: 'weight' -%}
+        {%- for html_page in html_pages -%} 
+          {%- unless site.nav_exclude contains html_page.path -%}
+             <a class="nav-item nav-link" href="{{ html_page.url | relative_url }}">{{ html_page.title }}</a>
+          {%- endunless -%}
+        {%- endfor -%}
+      {%- endif -%}
+
+      <span id="theme-toggler" class="nav-item nav-link" role="button" onclick="toggleTheme()"></span>
+    </div>
+  </div>
+
+</nav>

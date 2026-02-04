@@ -1,0 +1,21 @@
+// Catppuccin Latte Syntax Highlighting
+.highlight {
+  background-color: #eff1f5;
+  color: #4c4f69;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.highlight .c, .highlight .cm, .highlight .cp, .highlight .c1, .highlight .cs { color: #9ca0b0; font-style: italic; } // Overlay0 - Comments
+.highlight .k, .highlight .kc, .highlight .kd, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kt { color: #8839ef; font-weight: bold; } // Mauve - Keywords
+.highlight .o, .highlight .ow { color: #1e66f5; font-weight: bold; } // Blue - Operators
+.highlight .n, .highlight .nb, .highlight .bp { color: #4c4f69; } // Text - Names
+.highlight .nf, .highlight .fm { color: #1e66f5; } // Blue - Functions
+.highlight .nc, .highlight .nn { color: #df8e1d; font-weight: bold; } // Yellow - Classes/Namespaces
+.highlight .s, .highlight .sa, .highlight .sb, .highlight .sc, .highlight .dl, .highlight .sd, .highlight .s2, .highlight .se, .highlight .sh, .highlight .si, .highlight .sx, .highlight .sr, .highlight .s1, .highlight .ss { color: #40a02b; } // Green - Strings
+.highlight .m, .highlight .mb, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .mo, .highlight .il { color: #fe640b; } // Peach - Numbers
+.highlight .nt { color: #8839ef; font-weight: bold; } // Mauve - Tags
+.highlight .na { color: #1e66f5; } // Blue - Attributes
+.highlight .err { color: #d20f39; background-color: transparent; } // Red - Errors
+.highlight .gd { color: #d20f39; background-color: rgba(210, 15, 57, 0.15); } // Red - Deleted
+.highlight .gi { color: #40a02b; background-color: rgba(64, 160, 43, 0.15); } // Green - Inserted

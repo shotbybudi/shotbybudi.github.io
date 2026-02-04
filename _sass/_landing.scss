@@ -1,0 +1,128 @@
+.vertical-center {
+  margin-top: 30px;
+}
+
+.circle-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  margin-bottom: 10px;
+}
+
+.lp-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+
+.lp-text-container p {
+  margin: 0;
+  margin-bottom: -6px;
+  user-select: none;
+}
+
+.lp-image-container {
+  margin-left: auto;
+  width: 20%;
+}
+
+.landing-title {
+  opacity: 0;
+  animation: slideInLeftSmall 0.75s ease-out forwards;
+}
+
+.landing-title h1, .landing-title h2, .landing-title h3, .landing-title h4, .landing-title h5, .landing-title h6, .landing-title p, .landing-title {
+  font-weight: 800 !important;
+}
+
+@keyframes slideInLeftSmall {
+  0% {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fade-in-delayed {
+  opacity: 0;
+  animation: fadeIn 1s ease 1s forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+#hello-there {
+  font-weight: 800;
+  font-style: italic;
+  font-size: 30px;
+}
+
+.lp-line2 {
+  font-size: 20px;
+  font-weight: 300;
+  opacity: 0%;
+}
+
+.bold-brand {
+  font-weight: 800;
+  display: inline-block;
+  transition: letter-spacing 0.3s ease;
+}
+
+.bold-brand:hover {
+  letter-spacing: 5px;
+}
+
+.lp-345 {
+  opacity: 0%;
+  font-weight: 400;
+  font-size: 18px;
+  text-align: center;
+}
+
+.vp-banner {
+  display: none;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+  margin-top: -15px;
+}
+
+[data-theme="light"] .light-theme-image {
+  display: block;
+}
+
+[data-theme="dark"] .dark-theme-image {
+  display: block;
+}
+
+.vp-banner:hover {
+  transform: scale(1.05);
+}
+
+.img-href img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Wrapper to contain placeholder and code-block */
+.code-block-wrapper {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+/* Placeholder to maintain layout structure */
+.code-block-placeholder {
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}

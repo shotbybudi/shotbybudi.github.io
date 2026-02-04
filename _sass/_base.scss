@@ -1,0 +1,126 @@
+
+
+html {
+  padding-left: calc(100vw - 100%);
+}
+
+:root {
+  --primary: #{$primary};
+  --primary-light: #{$primary-light};
+  --primary-rgb: #{red($primary)}, #{green($primary)}, #{blue($primary)};
+  --primary-light-rgb: #{red($primary-light)}, #{green($primary-light)}, #{blue($primary-light)};
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  color: $text-black;
+  background-color: $light;
+}
+
+
+.badge {
+  font-weight: 500;
+}
+
+.bg-light,
+.badge-light {
+  &,
+  * {
+    color: $text-black !important;
+  }
+}
+
+.bg-dark,
+.badge-dark {
+  &,
+  * {
+    color: $text-white !important;
+  }
+}
+
+
+@mixin themed-scrollbar($light-thumb, $dark-thumb, $light-track, $dark-track) {
+  [data-theme="light"] {
+    ::-webkit-scrollbar {
+      scrollbar-width: thin;
+      width: 8px;
+      background: $light-track;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: $light-thumb;
+      border-radius: 10px;
+      border: 2px solid $light-track;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: lighten($light-thumb, 10%);
+    }
+
+    scrollbar-color: $light-thumb $light-track;
+  }
+
+  [data-theme="dark"] {
+    ::-webkit-scrollbar {
+      width: 8px;
+      background: $dark-track;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: $dark-thumb;
+      border-radius: 10px;
+      border: 2px solid $dark-track;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: lighten($dark-thumb, 10%);
+    }
+
+    scrollbar-color: $dark-thumb $dark-track; // For Firefox
+  }
+}
+
+
+@include themed-scrollbar(#4c4f69, $primary, #eff1f5, #1a1a21);
+
+
+.markdown-body a {
+  color: $text-link-light;
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+
+  [data-theme="dark"] & {
+    color: $text-link-dark;
+  }
+
+  &:hover {
+    color: $text-link-hover-light;
+    text-shadow: 0 0 1px currentColor;
+
+    [data-theme="dark"] & {
+      color: $text-link-hover-dark;
+      text-shadow: 0 0 1px currentColor;
+    }
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background-color: currentColor;
+    width: 0;
+    transition: width 0.35s;
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+}
+
+.markdown-body a.img-href::after {
+  content: none !important;
+}

@@ -1,0 +1,39 @@
+@mixin themed($property, $light-value, $dark-value) {
+  [data-theme="light"] & {
+    #{$property}: $light-value;
+  }
+
+  [data-theme="dark"] & {
+    #{$property}: $dark-value;
+  }
+}
+
+#theme-toggler:before {
+  @include themed(content, "\f186", "\f185");
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  @include themed(color, #4c4f69, #dfb14e);
+}
+
+.navbar-themed {
+  .navbar-brand,
+  .navbar-nav .nav-link.active {
+    @include themed(color, $text-black, $text-white);
+  }
+
+  .navbar-nav .nav-link {
+    @include themed(color, #6c6f85, #a6adc8);
+  }
+}
+
+.text-themed {
+  @include themed(color, $text-black, $text-white);
+}
+
+.bg-themed {
+  @include themed(background-color, $light, $dark);
+}
+
+.card {
+  border: 0px !important;
+}

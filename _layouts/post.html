@@ -1,0 +1,160 @@
+---
+layout: page-grid
+---
+
+{% if page.banner-image %}
+    {% assign banner-pic = site.data.virtual-photography[page.slug][page.banner-image] %}
+{% else %}
+    {% assign banner-pic = site.data.virtual-photography[page.slug][page.card-image] %}
+{% endif %}
+
+{% assign banner_url = banner-pic.url %}
+
+<meta name="referrer" content="no-referrer">
+<style>
+    .image-gallery {overflow: auto; margin-left: -1%!important;}
+    .image-gallery a {float: left; display: block; margin: 0 0 1% 1%; width: 19%; text-align: center; text-decoration: none!important;}
+    .image-gallery a span {display: block; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; padding: 3px 0;}
+    .image-gallery a img {width: 100%; display: block;}
+
+    .banner {
+    background-image: url('{{ banner_url }}');
+    background-size: cover;
+    background-position: right 0px bottom {{page.banner-offset}}%;
+    height: 200px;
+    border-radius: 28px 28px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    position: relative;
+
+    }
+
+    .banner::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #1f1f2971;
+        border-radius: 28px 28px 0 0;
+    }
+
+
+    .banner-text {
+    text-align: center;
+    text-shadow:
+        0 0 16px #00000063,
+        0px 2px 2px #0000005d;
+    position: relative;
+    z-index: 2;
+    [data-theme="light"] & {
+        color: #dce0e8;
+    }
+    [data-theme="dark"] & {
+        color: cdd6f4;
+    }
+    }
+
+    .banner-text h1 {
+        margin-bottom: 0px;
+        margin-top: 20px;
+    }
+
+    .banner-text p {
+        margin-top: 0;
+    }
+
+    @media (max-width: 767px) {
+    .banner {
+        height: 200px;
+    }
+    }
+
+    .pig-figure {
+        background-color: var(--ctp-surface0, #ccd0da);
+        transition: background-color 0.3s ease;
+
+        [data-theme="dark"] & {
+            background-color: var(--ctp-surface0, #202029);
+        }
+    }
+</style>
+
+<div class="banner">
+    <div class="banner-text">
+        <h1><strong>{{ page.title }}</strong></h1>
+        <p><span class="date"><strong>{% if page.developer %}{{page.developer}} {% endif %}</strong></span> </p>
+    </div>
+</div>
+
+<div class="pig-wrapper">
+    <div id="pig"></div>
+</div>
+<script type="text/javascript" src="/assets/js/pig.js"></script>
+<script type="text/javascript">
+    var imageData = [
+    {% for image in site.data.virtual-photography[page.slug] %}
+        {
+            "thumbnail": "{{ image.thumb }}",
+            "image1080": "{{ image.url }}",
+            "imageFull": "{{ image.url }}",
+            "aspectRatio": {{ image.aspectRatio }}
+        },
+    {% endfor %}
+    ];
+
+    {% if page.order-mode == 'random' %}
+    // Fisher-Yates shuffle for random order
+    for (let i = imageData.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [imageData[i], imageData[j]] = [imageData[j], imageData[i]];
+    }
+    {% endif %}
+
+    var pig = new Pig(imageData, {
+    urlForSize: function(imageUrls, sizewidth) {
+    if (sizewidth <= 1080){
+        return imageUrls.thumbnail;
+    }
+    else if(sizewidth <= 1949){
+        return imageUrls.image1080;
+    }
+    return imageUrls.imageFull;
+    },
+    addAnchorTag: true,
+    anchorTargetDir: "",
+    anchorClass: "vp-photo-link",
+    getUrl: function(imageUrls) {
+        return imageUrls.imageFull;
+    }
+    }).enable();
+
+    // Initialize Fancybox for virtual photography
+    setTimeout(function() {
+        var links = document.querySelectorAll('.vp-photo-link');
+        links.forEach(function(link) {
+            link.setAttribute('data-fancybox', 'vp-gallery');
+        });
+
+        Fancybox.bind('[data-fancybox="vp-gallery"]', {
+            Toolbar: {
+                display: {
+                    left: [],
+                    middle: [],
+                    right: ["close"]
+                }
+            },
+            Images: {
+                zoom: true
+            },
+            Carousel: {
+                infinite: false,
+                Dots: false
+            },
+            caption: false
+        });
+    }, 500);
+</script>

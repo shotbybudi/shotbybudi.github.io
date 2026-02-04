@@ -1,0 +1,36 @@
+# Local Site Directories
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+
+# Ruby Gems
+.bundle
+Gemfile.lock
+
+# Log Files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE
+.vscode/
+.idea/
+*.sublime-workspace
+
+# Cloudinary credentials (local only)
+.cloudinary-config.json
+
+# Backblaze B2 credentials (local only)
+.b2-config.json
+vippy-admin/.b2-config.json
+
+# Admin panel
+vippy-admin/node_modules/
+node_modules/
+.env

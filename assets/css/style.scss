@@ -1,0 +1,37 @@
+---
+---
+
+@import "portfolYOU";
+
+// Adaptive Button
+.btn-adaptive {
+  // Dark Mode (Default)
+  background-color: #2c2d3d !important;
+  color: $primary !important; // Primary color text
+  border: none !important;
+  transition: all 0.3s ease !important; // Simplified smooth animation
+  transform: translateY(0); // Ensure start position
+  font-weight: 500;
+  text-decoration: none !important; // Ensure no default underline
+  display: inline-block !important; // Required for transform
+  will-change: transform;
+
+  &:hover {
+    background-color: #3b3c53 !important;
+    color: lighten($primary, 10%) !important; // Lighten primary on hover
+    transform: translateY(-6px) !important; // Increased lift for visibility
+    text-decoration: none !important;
+  }
+}
+
+// Light Mode
+[data-theme="light"] .btn-adaptive {
+  background-color: #e6e9ef !important;
+  color: $primary-light !important; // Primary light color text
+  
+  &:hover {
+    background-color: #dbe1e6 !important;
+    color: darken($primary-light, 5%) !important; // Darken primary-light on hover
+    text-decoration: none !important;
+  }
+}

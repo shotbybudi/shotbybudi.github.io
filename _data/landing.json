@@ -1,0 +1,19 @@
+{
+  "title": "Welcome to Vippy!",
+  "subtitle": "Your personal VP and website template",
+  "text": "Vippy is a template designed for building your own virtual-photography portfolio and personal website. Built with a modular architecture, it offers seamless configuration through an intuitive admin panel, allowing for deep customization to match your unique style and specific needs.\r\n\r\nThe admin dashboard also features a management system for virtual photography portfolios, utilizing Backblaze integration for image hosting.",
+  "buttons": [
+    {
+      "text": "GitHub",
+      "link": "https://github.com/yourusername/Vippy"
+    },
+    {
+      "text": "Author",
+      "link": "#"
+    },
+    {
+      "text": "Costumize",
+      "link": "http://127.0.0.1:3001/"
+    }
+  ]
+}

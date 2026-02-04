@@ -1,0 +1,61 @@
+<div class="flex-shrink-0 container mt-5 markdown-body">
+  <!-- Top Section: Hero (Title/Subtitle Left, Avatar Right) -->
+  <div class="row align-items-center p-4">
+    
+    <!-- Text Column (Left) -->
+    <div class="col-lg-8 col-md-7 order-2 order-md-1 text-start">
+      <div class="text-themed mb-4">
+        {% if site.data.landing.title %}
+          <div class="landing-title h1 font-weight-bold">
+            {{ site.data.landing.title | markdownify }}
+          </div>
+        {% endif %}
+        
+        {% if site.data.landing.subtitle %}
+          <div class="wow animated fadeIn" data-wow-delay="0.5s">
+            <h2 class="h4 fw-light text-muted mb-4">{{ site.data.landing.subtitle }}</h2>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Avatar Column (Right) -->
+    <div class="col-lg-4 col-md-5 order-1 order-md-2 mb-4 mb-md-0">
+      <div id="container" class="my-2 ms-auto" style="max-width: 220px;">
+        <div id="dummy"></div>
+        <div id="element">
+          <img src="{{ site.author.image | default: site.logo }}" alt="{{ site.title }}" class="circle-image wow animated zoomIn" data-wow-delay=".1s">
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Section: Additional Content (Full Width) -->
+  <div class="row p-4 mt-4">
+    <div class="col-12 text-start">
+      <div class="text-themed fade-in-delayed">
+        {% if site.data.landing.text %}
+          {{ site.data.landing.text | markdownify }}
+        {% else %}
+          {{ site.description | markdownify }}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Buttons Section (Bottom) -->
+  <div class="row p-4">
+    <div class="col-12 text-center">
+      <div class="fade-in-delayed">
+        {% if site.data.landing.buttons %}
+          {% for button in site.data.landing.buttons %}
+            {% include elements/button.html link=button.link text=button.text style="adaptive" size="lg" %}
+          {% endfor %}
+        {% else %}
+          {% include elements/button.html link="/virtual-photography" text="Check them out" style="adaptive" size="lg" %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,78 @@
+.project {
+  /* Trigger recompile */
+  
+}
+
+.project.card {
+  border-radius: $rounded-borders;
+  text-decoration: none !important;
+  margin: 10px auto;
+  background-color: #F4F6FA;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  border: 0px !important;
+
+  .card-img-top {
+    height: 200px;
+    object-fit: cover;
+    border-radius: $rounded-borders $rounded-borders 0 0;
+  }
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover:not(.post) {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .card-body {
+    /* No 3D transform */
+  }
+
+  .card-title {
+    /* No transition */
+  }
+
+  .card-text {
+    /* No transition */
+  }
+
+  .badge-pill {
+    /* No transition */
+  }
+
+  &:hover {
+    /* No 3D transform on hover */
+  }
+}
+
+:root {
+  --badge-pill-color: #{$primary-light};
+}
+
+[data-theme='dark'] {
+  --badge-pill-color: #{$primary};
+}
+  
+.badge-pill {
+  border-color: var(--badge-pill-color) !important;
+}
+
+.text-primary {
+  color: var(--badge-pill-color) !important;
+}
+
+
+.project-title {
+  display: inline-block;
+  transition: letter-spacing 0.3s ease;
+  
+}
+
+.project-title:hover {
+  letter-spacing: 3px;
+}
+
+
+.img-bright:hover img {
+  filter: brightness(1.15);
+}
