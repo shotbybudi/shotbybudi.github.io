@@ -696,9 +696,20 @@
         // --- Functions ---
 
         function handleFiles(files) {
+            const existingFileNames = new Set(images.map(img => img.fileName));
+            const queueFileNames = new Set(fileQueue.map(f => f.name));
+
             for (const file of files) {
                 if (!file.type.startsWith('image/')) continue;
+                if (existingFileNames.has(file.name)) {
+                    showAlert('warning', `Skipped duplicate file: ${file.name}`);
+                    continue;
+                }
+                if (queueFileNames.has(file.name)) {
+                    continue; // Already in queue
+                }
                 fileQueue.push(file);
+                queueFileNames.add(file.name);
             }
             updateQueueUI();
         }
@@ -927,7 +938,13 @@
 
         async function saveOrder() {
             const items = imageGrid.querySelectorAll('.image-item');
+            
+            // Get the current card/banner image filenames before reordering
+            const cardImageName = images[cardImage]?.fileName;
+            const bannerImageName = images[bannerImage]?.fileName;
+
             const order = Array.from(items).map(item => parseInt(item.dataset.index));
+            
             try {
                 const response = await fetch(`/vippy/vp/reorder-images/${albumSlug}`, {
                     method: 'POST',
@@ -936,10 +953,31 @@
                 });
                 const data = await response.json();
                 if (data.success) {
+                    // Update indices in DOM
                     items.forEach((item, i) => {
                         item.dataset.index = i;
                         item.querySelector('.index-badge').textContent = `#${i}`;
                     });
+
+                    // Update local images array based on new order
+                    const newImages = [];
+                    order.forEach(oldIndex => {
+                        newImages.push(images[oldIndex]);
+                    });
+                    images = newImages;
+
+                    // Find new indices for card and banner
+                    if (cardImageName) {
+                        const newCardIndex = images.findIndex(img => img.fileName === cardImageName);
+                        if (newCardIndex !== -1) cardImage = newCardIndex;
+                    }
+                    if (bannerImageName) {
+                        const newBannerIndex = images.findIndex(img => img.fileName === bannerImageName);
+                        if (newBannerIndex !== -1) bannerImage = newBannerIndex;
+                    }
+
+                    updateSelections();
+                    updatePreviews();
                 }
             } catch (err) {
                 console.error('Error saving order:', err);
