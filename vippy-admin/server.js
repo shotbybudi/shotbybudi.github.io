@@ -15,6 +15,7 @@ const PORT = 3001;
 // Paths
 const ROOT_DIR = path.join(__dirname, '..');
 const CONFIG_PATH = path.join(ROOT_DIR, '_config.yml');
+const CNAME_PATH = path.join(ROOT_DIR, 'CNAME');
 const POSTS_DIR = path.join(ROOT_DIR, '_posts');
 const PROJECTS_DIR = path.join(ROOT_DIR, '_projects');
 const ABOUT_PATH = path.join(ROOT_DIR, 'pages', 'about.md');
@@ -429,6 +430,26 @@ app.post('/vippy/settings', upload.single('favicon'), async (req, res) => {
         config.description = req.body.description;
         config.url = req.body.url;
         config.keywords = req.body.keywords;
+        
+        // Update CNAME if URL is provided
+        if (req.body.url) {
+            try {
+                let hostname = req.body.url;
+                // Remove protocol if present
+                if (hostname.startsWith('http://') || hostname.startsWith('https://')) {
+                    const urlObj = new URL(hostname);
+                    hostname = urlObj.hostname;
+                }
+                // Remove trailing slash
+                hostname = hostname.replace(/\/$/, '');
+                
+                await fs.writeFile(CNAME_PATH, hostname);
+                logData.push(`Updated CNAME to: ${hostname}`);
+            } catch (e) {
+                console.error('Error updating CNAME:', e);
+                logData.push(`Error updating CNAME: ${e.message}`);
+            }
+        }
         
         // Ensure author object exists
         if (!config.author) config.author = {};
