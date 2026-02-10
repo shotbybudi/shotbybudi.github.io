@@ -18,7 +18,6 @@ author:
   twitter: shotbybudi
   github: shotbybudi
   instagram: shotbybudi
-  spotify: budi
 permalink: /:categories/:title
 collections:
   projects:
