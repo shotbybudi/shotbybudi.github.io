@@ -1,0 +1,432 @@
+--- Request 2026-02-07T12:11:35.453Z ---
+Body keys: title, description, url, author_name, theme_color_mode, theme_color_preset, theme_color_custom, keywords, analytics_enabled, analytics_id, social_twitter, social_bluesky, social_behance, social_dribbble, social_email, social_facebook, social_github, social_gitlab, social_instagram, social_kaggle, social_linkedin, social_medium, social_soundcloud, social_spotify, social_stackoverflow, social_tumblr, social_twitch, social_vimeo, social_youtube, social_keybase, social_discord, social_kofi
+Body: {
+  "title": "budi",
+  "description": "",
+  "url": "https://vippy.nairdah.me",
+  "author_name": "budi",
+  "theme_color_mode": "preset",
+  "theme_color_preset": "Green",
+  "theme_color_custom": "#a6e3a1",
+  "keywords": "portfolio, photography, developer, personal site",
+  "analytics_enabled": "on",
+  "analytics_id": "",
+  "social_twitter": "shotbybudi",
+  "social_bluesky": "",
+  "social_behance": "",
+  "social_dribbble": "",
+  "social_email": "",
+  "social_facebook": "",
+  "social_github": "shotbybudi",
+  "social_gitlab": "",
+  "social_instagram": "shotbybudi",
+  "social_kaggle": "",
+  "social_linkedin": "",
+  "social_medium": "",
+  "social_soundcloud": "",
+  "social_spotify": "budi",
+  "social_stackoverflow": "",
+  "social_tumblr": "",
+  "social_twitch": "",
+  "social_vimeo": "",
+  "social_youtube": "",
+  "social_keybase": "",
+  "social_discord": "shotbybudi",
+  "social_kofi": ""
+}
+Updated CNAME to: vippy.nairdah.me
+Setting theme preset: Green
+Updating social media...
+Setting social twitter: shotbybudi
+Removing social bluesky
+Removing social behance
+Removing social dribbble
+Removing social email
+Removing social facebook
+Setting social github: shotbybudi
+Removing social gitlab
+Setting social instagram: shotbybudi
+Removing social kaggle
+Removing social linkedin
+Removing social medium
+Removing social soundcloud
+Setting social spotify: budi
+Removing social stackoverflow
+Removing social tumblr
+Removing social twitch
+Removing social vimeo
+Removing social youtube
+Removing social keybase
+Setting social discord: shotbybudi
+Removing social kofi
+Saving config to: D:\Programz\GH\shotbybudi.github.io\_config.yml
+New YAML content (preview): title: budi
+description: ''
+url: https://vippy.nairdah.me
+baseurl: ''
+remote_theme: YoussefRaafatNasry/portfolYOU
+logo: /assets/logo.png
+keywords: portfolio, photography, developer, personal site
+plug...
+Config saved successfully
+
+--- Request 2026-02-07T12:12:07.131Z ---
+Body keys: title, description, url, author_name, theme_color_mode, theme_color_preset, theme_color_custom, keywords, analytics_enabled, analytics_id, social_twitter, social_bluesky, social_behance, social_dribbble, social_email, social_facebook, social_github, social_gitlab, social_instagram, social_kaggle, social_linkedin, social_medium, social_soundcloud, social_spotify, social_stackoverflow, social_tumblr, social_twitch, social_vimeo, social_youtube, social_keybase, social_discord, social_kofi
+Body: {
+  "title": "budi",
+  "description": "",
+  "url": "https://vippy.nairdah.me",
+  "author_name": "budi",
+  "theme_color_mode": "custom",
+  "theme_color_preset": "",
+  "theme_color_custom": "#548f6f",
+  "keywords": "portfolio, photography, developer, personal site",
+  "analytics_enabled": "on",
+  "analytics_id": "",
+  "social_twitter": "shotbybudi",
+  "social_bluesky": "",
+  "social_behance": "",
+  "social_dribbble": "",
+  "social_email": "",
+  "social_facebook": "",
+  "social_github": "shotbybudi",
+  "social_gitlab": "",
+  "social_instagram": "shotbybudi",
+  "social_kaggle": "",
+  "social_linkedin": "",
+  "social_medium": "",
+  "social_soundcloud": "",
+  "social_spotify": "budi",
+  "social_stackoverflow": "",
+  "social_tumblr": "",
+  "social_twitch": "",
+  "social_vimeo": "",
+  "social_youtube": "",
+  "social_keybase": "",
+  "social_discord": "shotbybudi",
+  "social_kofi": ""
+}
+Updated CNAME to: vippy.nairdah.me
+Setting custom theme color: #548f6f
+Updating social media...
+Setting social twitter: shotbybudi
+Removing social bluesky
+Removing social behance
+Removing social dribbble
+Removing social email
+Removing social facebook
+Setting social github: shotbybudi
+Removing social gitlab
+Setting social instagram: shotbybudi
+Removing social kaggle
+Removing social linkedin
+Removing social medium
+Removing social soundcloud
+Setting social spotify: budi
+Removing social stackoverflow
+Removing social tumblr
+Removing social twitch
+Removing social vimeo
+Removing social youtube
+Removing social keybase
+Setting social discord: shotbybudi
+Removing social kofi
+Saving config to: D:\Programz\GH\shotbybudi.github.io\_config.yml
+New YAML content (preview): title: budi
+description: ''
+url: https://vippy.nairdah.me
+baseurl: ''
+remote_theme: YoussefRaafatNasry/portfolYOU
+logo: /assets/logo.png
+keywords: portfolio, photography, developer, personal site
+plug...
+Config saved successfully
+
+--- Request 2026-02-07T13:09:46.056Z ---
+Body keys: title, description, url, author_name, theme_color_mode, theme_color_preset, theme_color_custom, keywords, analytics_enabled, analytics_id, social_twitter, social_bluesky, social_behance, social_dribbble, social_email, social_facebook, social_github, social_gitlab, social_instagram, social_kaggle, social_linkedin, social_medium, social_soundcloud, social_spotify, social_stackoverflow, social_tumblr, social_twitch, social_vimeo, social_youtube, social_keybase, social_discord, social_kofi
+Body: {
+  "title": "budi",
+  "description": "",
+  "url": "https://vippy.nairdah.me",
+  "author_name": "budi",
+  "theme_color_mode": "custom",
+  "theme_color_preset": "",
+  "theme_color_custom": "#548f6f",
+  "keywords": "portfolio, photography, developer, personal site",
+  "analytics_enabled": "on",
+  "analytics_id": "",
+  "social_twitter": "shotbybudi",
+  "social_bluesky": "",
+  "social_behance": "",
+  "social_dribbble": "",
+  "social_email": "",
+  "social_facebook": "",
+  "social_github": "shotbybudi",
+  "social_gitlab": "",
+  "social_instagram": "shotbybudi",
+  "social_kaggle": "",
+  "social_linkedin": "",
+  "social_medium": "",
+  "social_soundcloud": "",
+  "social_spotify": "budi",
+  "social_stackoverflow": "",
+  "social_tumblr": "",
+  "social_twitch": "",
+  "social_vimeo": "",
+  "social_youtube": "",
+  "social_keybase": "",
+  "social_discord": "",
+  "social_kofi": ""
+}
+Updated CNAME to: vippy.nairdah.me
+Setting custom theme color: #548f6f
+Updating social media...
+Setting social twitter: shotbybudi
+Removing social bluesky
+Removing social behance
+Removing social dribbble
+Removing social email
+Removing social facebook
+Setting social github: shotbybudi
+Removing social gitlab
+Setting social instagram: shotbybudi
+Removing social kaggle
+Removing social linkedin
+Removing social medium
+Removing social soundcloud
+Setting social spotify: budi
+Removing social stackoverflow
+Removing social tumblr
+Removing social twitch
+Removing social vimeo
+Removing social youtube
+Removing social keybase
+Removing social discord
+Removing social kofi
+Saving config to: D:\Programz\GH\shotbybudi.github.io\_config.yml
+New YAML content (preview): title: budi
+description: ''
+url: https://vippy.nairdah.me
+baseurl: ''
+remote_theme: YoussefRaafatNasry/portfolYOU
+logo: /assets/logo.png
+keywords: portfolio, photography, developer, personal site
+plug...
+Config saved successfully
+
+--- Request 2026-02-07T13:28:53.777Z ---
+Body keys: title, description, url, author_name, theme_color_mode, theme_color_preset, theme_color_custom, keywords, analytics_enabled, analytics_id, social_twitter, social_bluesky, social_behance, social_dribbble, social_email, social_facebook, social_github, social_gitlab, social_instagram, social_kaggle, social_linkedin, social_medium, social_soundcloud, social_spotify, social_stackoverflow, social_tumblr, social_twitch, social_vimeo, social_youtube, social_keybase, social_discord, social_kofi
+Body: {
+  "title": "budi",
+  "description": "",
+  "url": "https://vippy.nairdah.me",
+  "author_name": "budi",
+  "theme_color_mode": "custom",
+  "theme_color_preset": "",
+  "theme_color_custom": "#548f6f",
+  "keywords": "portfolio, photography, developer, personal site",
+  "analytics_enabled": "on",
+  "analytics_id": "",
+  "social_twitter": "shotbybudi",
+  "social_bluesky": "",
+  "social_behance": "",
+  "social_dribbble": "",
+  "social_email": "",
+  "social_facebook": "",
+  "social_github": "shotbybudi",
+  "social_gitlab": "",
+  "social_instagram": "shotbybudi",
+  "social_kaggle": "",
+  "social_linkedin": "",
+  "social_medium": "",
+  "social_soundcloud": "",
+  "social_spotify": "budi",
+  "social_stackoverflow": "",
+  "social_tumblr": "",
+  "social_twitch": "",
+  "social_vimeo": "",
+  "social_youtube": "",
+  "social_keybase": "",
+  "social_discord": "",
+  "social_kofi": ""
+}
+Updated CNAME to: vippy.nairdah.me
+Setting custom theme color: #548f6f
+Updating social media...
+Setting social twitter: shotbybudi
+Removing social bluesky
+Removing social behance
+Removing social dribbble
+Removing social email
+Removing social facebook
+Setting social github: shotbybudi
+Removing social gitlab
+Setting social instagram: shotbybudi
+Removing social kaggle
+Removing social linkedin
+Removing social medium
+Removing social soundcloud
+Setting social spotify: budi
+Removing social stackoverflow
+Removing social tumblr
+Removing social twitch
+Removing social vimeo
+Removing social youtube
+Removing social keybase
+Removing social discord
+Removing social kofi
+Saving config to: D:\Programz\GH\shotbybudi.github.io\_config.yml
+New YAML content (preview): title: budi
+description: ''
+url: https://vippy.nairdah.me
+baseurl: ''
+remote_theme: YoussefRaafatNasry/portfolYOU
+logo: /assets/logo.png
+keywords: portfolio, photography, developer, personal site
+plug...
+Config saved successfully
+
+--- Request 2026-02-07T13:29:00.583Z ---
+Body keys: title, description, url, author_name, theme_color_mode, theme_color_preset, theme_color_custom, keywords, analytics_enabled, analytics_id, social_twitter, social_bluesky, social_behance, social_dribbble, social_email, social_facebook, social_github, social_gitlab, social_instagram, social_kaggle, social_linkedin, social_medium, social_soundcloud, social_spotify, social_stackoverflow, social_tumblr, social_twitch, social_vimeo, social_youtube, social_keybase, social_discord, social_kofi
+Body: {
+  "title": "budi",
+  "description": "",
+  "url": "https://vippy.nairdah.me",
+  "author_name": "budi",
+  "theme_color_mode": "custom",
+  "theme_color_preset": "",
+  "theme_color_custom": "#548f6f",
+  "keywords": "portfolio, photography, developer, personal site",
+  "analytics_enabled": "on",
+  "analytics_id": "",
+  "social_twitter": "shotbybudi",
+  "social_bluesky": "",
+  "social_behance": "",
+  "social_dribbble": "",
+  "social_email": "",
+  "social_facebook": "",
+  "social_github": "shotbybudi",
+  "social_gitlab": "",
+  "social_instagram": "shotbybudi",
+  "social_kaggle": "",
+  "social_linkedin": "",
+  "social_medium": "",
+  "social_soundcloud": "",
+  "social_spotify": "budi",
+  "social_stackoverflow": "",
+  "social_tumblr": "",
+  "social_twitch": "",
+  "social_vimeo": "",
+  "social_youtube": "",
+  "social_keybase": "",
+  "social_discord": "",
+  "social_kofi": ""
+}
+Updated CNAME to: vippy.nairdah.me
+Setting custom theme color: #548f6f
+Updating social media...
+Setting social twitter: shotbybudi
+Removing social bluesky
+Removing social behance
+Removing social dribbble
+Removing social email
+Removing social facebook
+Setting social github: shotbybudi
+Removing social gitlab
+Setting social instagram: shotbybudi
+Removing social kaggle
+Removing social linkedin
+Removing social medium
+Removing social soundcloud
+Setting social spotify: budi
+Removing social stackoverflow
+Removing social tumblr
+Removing social twitch
+Removing social vimeo
+Removing social youtube
+Removing social keybase
+Removing social discord
+Removing social kofi
+Saving config to: D:\Programz\GH\shotbybudi.github.io\_config.yml
+New YAML content (preview): title: budi
+description: ''
+url: https://vippy.nairdah.me
+baseurl: ''
+remote_theme: YoussefRaafatNasry/portfolYOU
+logo: /assets/logo.png
+keywords: portfolio, photography, developer, personal site
+plug...
+Config saved successfully
+
+--- Request 2026-02-07T13:29:05.173Z ---
+Body keys: title, description, url, author_name, theme_color_mode, theme_color_preset, theme_color_custom, keywords, analytics_enabled, analytics_id, social_twitter, social_bluesky, social_behance, social_dribbble, social_email, social_facebook, social_github, social_gitlab, social_instagram, social_kaggle, social_linkedin, social_medium, social_soundcloud, social_spotify, social_stackoverflow, social_tumblr, social_twitch, social_vimeo, social_youtube, social_keybase, social_discord, social_kofi
+Body: {
+  "title": "budi",
+  "description": "",
+  "url": "https://vippy.nairdah.me",
+  "author_name": "budi",
+  "theme_color_mode": "custom",
+  "theme_color_preset": "",
+  "theme_color_custom": "#548f6f",
+  "keywords": "portfolio, photography, developer, personal site",
+  "analytics_enabled": "on",
+  "analytics_id": "",
+  "social_twitter": "shotbybudi",
+  "social_bluesky": "",
+  "social_behance": "",
+  "social_dribbble": "",
+  "social_email": "",
+  "social_facebook": "",
+  "social_github": "shotbybudi",
+  "social_gitlab": "",
+  "social_instagram": "shotbybudi",
+  "social_kaggle": "",
+  "social_linkedin": "",
+  "social_medium": "",
+  "social_soundcloud": "",
+  "social_spotify": "budi",
+  "social_stackoverflow": "",
+  "social_tumblr": "",
+  "social_twitch": "",
+  "social_vimeo": "",
+  "social_youtube": "",
+  "social_keybase": "",
+  "social_discord": "",
+  "social_kofi": ""
+}
+Updated CNAME to: vippy.nairdah.me
+Setting custom theme color: #548f6f
+Updating social media...
+Setting social twitter: shotbybudi
+Removing social bluesky
+Removing social behance
+Removing social dribbble
+Removing social email
+Removing social facebook
+Setting social github: shotbybudi
+Removing social gitlab
+Setting social instagram: shotbybudi
+Removing social kaggle
+Removing social linkedin
+Removing social medium
+Removing social soundcloud
+Setting social spotify: budi
+Removing social stackoverflow
+Removing social tumblr
+Removing social twitch
+Removing social vimeo
+Removing social youtube
+Removing social keybase
+Removing social discord
+Removing social kofi
+Saving config to: D:\Programz\GH\shotbybudi.github.io\_config.yml
+New YAML content (preview): title: budi
+description: ''
+url: https://vippy.nairdah.me
+baseurl: ''
+remote_theme: YoussefRaafatNasry/portfolYOU
+logo: /assets/logo.png
+keywords: portfolio, photography, developer, personal site
+plug...
+Config saved successfully
+

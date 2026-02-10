@@ -1,5 +1,5 @@
-title: Vippy
-description: A customizable portfolio template for virtual photography
+title: budi
+description: ''
 url: https://vippy.nairdah.me
 baseurl: ''
 remote_theme: YoussefRaafatNasry/portfolYOU
@@ -14,7 +14,11 @@ nav_exclude:
   - pages/404.html
   - pages/index.md
 author:
-  name: Vippy
+  name: budi
+  twitter: shotbybudi
+  github: shotbybudi
+  instagram: shotbybudi
+  spotify: budi
 permalink: /:categories/:title
 collections:
   projects:
@@ -57,12 +61,6 @@ site_modules:
     enabled: true
     icon: bi-camera
     admin_url: /vippy/vp
-  - id: projects
-    name: Projects
-    url: /projects/
-    enabled: true
-    icon: bi-code-square
-    admin_url: /vippy/projects
   - id: blog
     name: Blog
     url: /blog/
@@ -75,3 +73,9 @@ site_modules:
     enabled: true
     icon: bi-person-circle
     admin_url: /vippy/about
+  - id: projects
+    name: Projects
+    url: /projects/
+    enabled: false
+    icon: bi-code-square
+    admin_url: /vippy/projects

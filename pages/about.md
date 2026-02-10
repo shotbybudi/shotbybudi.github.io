@@ -4,7 +4,6 @@ title: About
 permalink: /about/
 weight: 2
 ---
-# Hello there, I'm Vippy!
-I am a template designed for building your own virtual photography (i mean could also be irl photography) portfolio and personal website. Built with a modular architecture, I offers seamless configuration through an intuitive admin panel, allowing for deep customization to match your unique style and specific needs.
+My name is Alecs, virtually known as @shotbybudi. I am a young, aspiring virtual photographer from Romania, currently 19 years old.
 
-The admin dashboard also features a streamlined management system for virtual photography portfolios, utilizing Backblaze integration for effortless image hosting and organization.
+This site is more of a personal project, made true with Nairdah’s help, and planning to continue on improving the site and my portfolio with up-to-date virtual “shots”, soon planning on real life photography as well.

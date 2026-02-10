@@ -1,19 +1,23 @@
 {
-  "title": "Welcome to Vippy!",
-  "subtitle": "Your personal VP and website template",
-  "text": "Vippy is a template designed for building your own virtual-photography portfolio and personal website. Built with a modular architecture, it offers seamless configuration through an intuitive admin panel, allowing for deep customization to match your unique style and specific needs.\r\n\r\nThe admin dashboard also features a management system for virtual photography portfolios, utilizing Backblaze integration for image hosting.",
+  "title": "Welcome to my portfolio!",
+  "subtitle": "A portfolio made by shotbybudi",
+  "text": "My name is Alecs, virtually known as @shotbybudi. I am a young, aspiring virtual photographer from Romania, currently 19 years old.\r\n\r\nThis site is more of a personal project, made true with Nairdah's help, and planning to continue on improving the site and my portfolio with up-to-date virtual \"shots\", soon planning on real life photography as well.",
   "buttons": [
     {
-      "text": "GitHub",
-      "link": "https://github.com/nairdahh/Vippy"
+      "text": "Twitter / X",
+      "link": "https://x.com/ShotByBudi"
     },
     {
-      "text": "Author",
-      "link": "https://nairdah.me/"
+      "text": "Steam",
+      "link": "https://steamcommunity.com/id/95ug/"
     },
     {
-      "text": "Costumize",
-      "link": "http://127.0.0.1:3001/"
+      "text": "Instagram",
+      "link": "https://www.instagram.com/shotbybudi/"
+    },
+    {
+      "text": "Nairdah",
+      "link": "nairdah.me"
     }
   ]
 }
