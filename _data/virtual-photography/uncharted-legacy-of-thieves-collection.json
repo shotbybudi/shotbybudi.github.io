@@ -75,5 +75,12 @@
     "aspectRatio": 1,
     "width": 3600,
     "height": 3600
+  },
+  {
+    "url": "https://budi420.s3.eu-central-003.backblazeb2.com/uncharted-legacy-of-thieves-collection/mlxpmxvw-3fqt.jpg",
+    "thumb": "https://budi420.s3.eu-central-003.backblazeb2.com/uncharted-legacy-of-thieves-collection/thumb/mlxpmxvw-3fqt.webp",
+    "aspectRatio": 0.6667,
+    "width": 960,
+    "height": 1440
   }
 ]
