@@ -10,12 +10,11 @@ const matter = require('gray-matter');
 const yaml = require('js-yaml');
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3080;
 
 // Paths
 const ROOT_DIR = path.join(__dirname, '..');
 const CONFIG_PATH = path.join(ROOT_DIR, '_config.yml');
-const CNAME_PATH = path.join(ROOT_DIR, 'CNAME');
 const POSTS_DIR = path.join(ROOT_DIR, '_posts');
 const PROJECTS_DIR = path.join(ROOT_DIR, '_projects');
 const ABOUT_PATH = path.join(ROOT_DIR, 'pages', 'about.md');
@@ -58,13 +57,13 @@ async function getThemeColor() {
 async function updateThemeColor(hexDark, hexLight) {
     try {
         let content = await fs.readFile(VARIABLES_SCSS_PATH, 'utf8');
-        
+
         // Update $primary (Dark)
         content = content.replace(/\$primary:\s*#[a-fA-F0-9]{3,6};/, `$primary:   ${hexDark};`);
-        
+
         // Update $primary-light (Light)
         content = content.replace(/\$primary-light:\s*#[a-fA-F0-9]{3,6};/, `$primary-light: ${hexLight};`);
-        
+
         await fs.writeFile(VARIABLES_SCSS_PATH, content, 'utf8');
     } catch (e) {
         console.error('Error updating theme color:', e);
@@ -121,7 +120,7 @@ app.use((req, res, next) => {
 
 // Multer config for file uploads
 const storage = multer.memoryStorage();
-const upload = multer({ 
+const upload = multer({
     storage: storage,
     limits: { fileSize: 50 * 1024 * 1024 }, // 50MB limit
     fileFilter: (req, file, cb) => {
@@ -144,7 +143,7 @@ async function authorizeB2(forceRefresh = false) {
         console.log('Authorizing B2...');
         b2AuthData = await b2.authorize();
         b2AuthExpiry = now + (23 * 60 * 60 * 1000); // 23 hours
-        
+
         if (b2Config.bucket_id) {
             b2BucketId = b2Config.bucket_id;
             console.log('B2 authorized. Using bucket ID from config:', b2BucketId);
@@ -171,7 +170,7 @@ async function authorizeB2(forceRefresh = false) {
 async function uploadToB2(fileName, fileBuffer, contentType) {
     await authorizeB2();
     const uploadUrl = await b2.getUploadUrl({ bucketId: b2BucketId });
-    
+
     const response = await b2.uploadFile({
         uploadUrl: uploadUrl.data.uploadUrl,
         uploadAuthToken: uploadUrl.data.authorizationToken,
@@ -179,20 +178,20 @@ async function uploadToB2(fileName, fileBuffer, contentType) {
         data: fileBuffer,
         contentType: contentType
     });
-    
+
     return response.data;
 }
 
 // Helper: Delete file from B2
 async function deleteFromB2(fileName) {
     await authorizeB2();
-    
+
     const files = await b2.listFileVersions({
         bucketId: b2BucketId,
         prefix: fileName,
         maxFileCount: 1
     });
-    
+
     if (files.data.files.length > 0) {
         const file = files.data.files[0];
         await b2.deleteFileVersion({
@@ -209,7 +208,16 @@ function getCdnUrl(filePath) {
     if (b2Config.use_cdn && b2Config.cdn_domain) {
         return `https://${b2Config.cdn_domain}/${filePath}`;
     }
-    return `https://f003.backblazeb2.com/file/${b2Config.bucket_name}/${filePath}`;
+
+    if (b2AuthData && b2AuthData.data && b2AuthData.data.s3ApiUrl) {
+        const s3Host = b2AuthData.data.s3ApiUrl.replace('https://', '');
+        return `https://${b2Config.bucket_name}.${s3Host}/${filePath}`;
+    }
+    const baseDownloadUrl = (b2AuthData && b2AuthData.data && b2AuthData.data.downloadUrl)
+        ? b2AuthData.data.downloadUrl
+        : 'https://f003.backblazeb2.com';
+
+    return `${baseDownloadUrl}/file/${b2Config.bucket_name}/${filePath}`;
 }
 
 // Helper: Read all albums (Now Async)
@@ -217,18 +225,18 @@ async function getAlbums() {
     try {
         const jsonFiles = (await fs.readdir(DATA_DIR)).filter(f => f.endsWith('.json') && !f.startsWith('_'));
         const postFilesList = (await fs.readdir(POSTS_DIR)).filter(f => f.endsWith('.md'));
-        
+
         const albumPromises = jsonFiles.map(async (jsonFile) => {
             const slug = jsonFile.replace('.json', '');
             const jsonPath = path.join(DATA_DIR, jsonFile);
             const postFile = postFilesList.find(f => f.endsWith(`${slug}.md`));
-            
+
             if (!postFile) return null;
 
             const postPath = path.join(POSTS_DIR, postFile);
             const postContent = await fs.readFile(postPath, 'utf8');
             const { data: frontMatter } = matter(postContent);
-            
+
             let images = [];
             try {
                 const rawImages = JSON.parse(await fs.readFile(jsonPath, 'utf8'));
@@ -393,7 +401,7 @@ app.get('/vippy/settings', async (req, res) => {
     try {
         const configContent = await fs.readFile(CONFIG_PATH, 'utf8');
         const config = yaml.load(configContent);
-        
+
         let socialMedia = {};
         try {
             const socialContent = await fs.readFile(SOCIAL_MEDIA_PATH, 'utf8');
@@ -418,45 +426,26 @@ app.post('/vippy/settings', upload.single('favicon'), async (req, res) => {
         logData.push('Body: ' + JSON.stringify(req.body, null, 2));
 
         console.log('Received settings update request');
-        
+
         const configContent = await fs.readFile(CONFIG_PATH, 'utf8');
         let config = yaml.load(configContent);
-        
+
         // Ensure config exists
         if (!config) config = {};
-        
+
         // Update general settings
         config.title = req.body.title;
         config.description = req.body.description;
         config.url = req.body.url;
         config.keywords = req.body.keywords;
-        
-        // Update CNAME if URL is provided
-        if (req.body.url) {
-            try {
-                let hostname = req.body.url;
-                // Remove protocol if present
-                if (hostname.startsWith('http://') || hostname.startsWith('https://')) {
-                    const urlObj = new URL(hostname);
-                    hostname = urlObj.hostname;
-                }
-                // Remove trailing slash
-                hostname = hostname.replace(/\/$/, '');
-                
-                await fs.writeFile(CNAME_PATH, hostname);
-                logData.push(`Updated CNAME to: ${hostname}`);
-            } catch (e) {
-                console.error('Error updating CNAME:', e);
-                logData.push(`Error updating CNAME: ${e.message}`);
-            }
-        }
-        
+
         // Ensure author object exists
         if (!config.author) config.author = {};
 
         config.author = {
             ...config.author,
             name: req.body.author_name
+            // email removed as per request
         };
 
         // Handle Theme Color
@@ -470,7 +459,10 @@ app.post('/vippy/settings', upload.single('favicon'), async (req, res) => {
             const customColor = req.body.theme_color_custom;
             if (customColor) {
                 logData.push(`Setting custom theme color: ${customColor}`);
-
+                // For custom, we use the same color for both or we could calculate a variant.
+                // Using the same color for now as per "custom color" request which implies a single pick.
+                // Or maybe we should just darken it slightly for light mode? 
+                // Let's use the same color for simplicity and predictability unless we have a darkening function.
                 await updateThemeColor(customColor, customColor);
             }
         }
@@ -478,10 +470,10 @@ app.post('/vippy/settings', upload.single('favicon'), async (req, res) => {
         // Analytics Settings
         if (!config.analytics) config.analytics = { google: {} };
         if (!config.analytics.google) config.analytics.google = {};
-        
+
         config.analytics.enabled = req.body.analytics_enabled === 'on';
         config.analytics.google.tracking_id = req.body.analytics_id;
-        
+
         // Handle favicon upload
         if (req.file) {
             console.log('File uploaded:', req.file.path);
@@ -510,10 +502,10 @@ app.post('/vippy/settings', upload.single('favicon'), async (req, res) => {
         logData.push('Saving config to: ' + CONFIG_PATH);
         const yamlStr = yaml.dump(config);
         logData.push('New YAML content (preview): ' + yamlStr.substring(0, 200) + '...');
-        
+
         await fs.writeFile(CONFIG_PATH, yamlStr, 'utf8');
         logData.push('Config saved successfully');
-        
+
         // Write log to file
         await fs.appendFile(path.join(ROOT_DIR, 'debug_log.txt'), logData.join('\n') + '\n\n');
 
@@ -530,10 +522,10 @@ app.post('/api/modules/reorder', async (req, res) => {
     try {
         const { modules: newStates } = req.body;
         const currentModules = await getModules();
-        
+
         // Reorder and update status based on input
         const updatedModules = [];
-        
+
         // First add modules in the new order
         newStates.forEach(state => {
             const mod = currentModules.find(m => m.id === state.id);
@@ -542,7 +534,7 @@ app.post('/api/modules/reorder', async (req, res) => {
                 updatedModules.push(mod);
             }
         });
-        
+
         // Add any missing modules (safety check)
         currentModules.forEach(mod => {
             if (!updatedModules.find(m => m.id === mod.id)) {
@@ -562,11 +554,11 @@ async function getBlogPosts() {
     try {
         const files = await fs.readdir(POSTS_DIR);
         const mdFiles = files.filter(f => f.endsWith('.md'));
-        
+
         const posts = await Promise.all(mdFiles.map(async (file) => {
             const content = await fs.readFile(path.join(POSTS_DIR, file), 'utf8');
             const { data, content: body } = matter(content);
-            
+
             // Skip if it's a VP post
             const categories = Array.isArray(data.categories) ? data.categories : (data.categories || '').toString().split(',').map(c => c.trim());
             if (categories.includes('virtual-photography')) return null;
@@ -585,7 +577,7 @@ async function getBlogPosts() {
                 content: body
             };
         }));
-        
+
         return posts.filter(p => p !== null).sort((a, b) => new Date(b.date) - new Date(a.date));
     } catch (e) {
         console.error('Error getting blog posts:', e);
@@ -613,7 +605,7 @@ app.get('/vippy/blog/edit/:fileSlug', async (req, res) => {
 app.post('/vippy/blog/save', upload.single('headerImage'), async (req, res) => {
     try {
         const { title, date, author, categories, tags, excerpt, content, imageUrl, originalFilename } = req.body;
-        
+
         let finalImageUrl = imageUrl;
         if (req.file) {
             // Upload to B2
@@ -626,7 +618,7 @@ app.post('/vippy/blog/save', upload.single('headerImage'), async (req, res) => {
         const slug = createSlug(title);
         const actualDate = date || new Date().toISOString().split('T')[0];
         const newFilename = `${actualDate}-${slug}.md`;
-        
+
         const frontMatter = {
             layout: 'post',
             title,
@@ -639,15 +631,15 @@ app.post('/vippy/blog/save', upload.single('headerImage'), async (req, res) => {
         };
 
         const fileContent = matter.stringify(content || '', frontMatter);
-        
+
         // If editing and filename changed (date or title changed), delete old file
         if (originalFilename && originalFilename !== newFilename) {
             const oldPath = path.join(POSTS_DIR, originalFilename + '.md');
-            await fs.access(oldPath).then(() => fs.unlink(oldPath)).catch(() => {});
+            await fs.access(oldPath).then(() => fs.unlink(oldPath)).catch(() => { });
         }
 
         await fs.writeFile(path.join(POSTS_DIR, newFilename), fileContent);
-        
+
         res.redirect('/vippy/blog');
     } catch (e) {
         console.error('Error saving blog post:', e);
@@ -670,11 +662,11 @@ async function getProjects() {
     try {
         const files = await fs.readdir(PROJECTS_DIR);
         const mdFiles = files.filter(f => f.endsWith('.md'));
-        
+
         const projects = await Promise.all(mdFiles.map(async (file) => {
             const content = await fs.readFile(path.join(PROJECTS_DIR, file), 'utf8');
             const { data, content: body } = matter(content);
-            
+
             return {
                 filename: file,
                 fileSlug: file.replace('.md', ''),
@@ -686,7 +678,7 @@ async function getProjects() {
                 content: body
             };
         }));
-        
+
         return projects.sort((a, b) => a.filename.localeCompare(b.filename, undefined, { numeric: true }));
     } catch (e) {
         console.error('Error getting projects:', e);
@@ -714,7 +706,7 @@ app.get('/vippy/projects/edit/:fileSlug', async (req, res) => {
 app.post('/vippy/projects/save', upload.single('projectImage'), async (req, res) => {
     try {
         const { name, tools, description, external_url, content, imageUrl, originalFilename } = req.body;
-        
+
         let finalImageUrl = imageUrl;
         if (req.file) {
             const ext = path.extname(req.file.originalname);
@@ -722,12 +714,12 @@ app.post('/vippy/projects/save', upload.single('projectImage'), async (req, res)
             await uploadToB2(fileName, req.file.buffer, req.file.mimetype);
             finalImageUrl = getCdnUrl(fileName);
         }
-        
+
         let newFilename = originalFilename;
         if (!newFilename) {
             newFilename = createSlug(name);
         }
-        
+
         const frontMatter = {
             name,
             tools: tools ? tools.split(',').map(t => t.trim()) : [],
@@ -737,10 +729,10 @@ app.post('/vippy/projects/save', upload.single('projectImage'), async (req, res)
         };
 
         const fileContent = matter.stringify(content || '', frontMatter);
-        
+
         const filePath = path.join(PROJECTS_DIR, newFilename + '.md');
         await fs.writeFile(filePath, fileContent);
-        
+
         res.redirect('/vippy/projects');
     } catch (e) {
         console.error('Error saving project:', e);
@@ -763,8 +755,8 @@ app.get('/vippy/about', async (req, res) => {
     try {
         const content = await fs.readFile(ABOUT_PATH, 'utf8');
         const { data, content: body } = matter(content);
-        res.render('edit-about', { 
-            content: body, 
+        res.render('edit-about', {
+            content: body,
             frontMatter: data,
             success: req.query.success === 'true'
         });
@@ -777,7 +769,7 @@ app.get('/vippy/about', async (req, res) => {
 app.post('/vippy/about/save', async (req, res) => {
     try {
         const { content, title, layout, permalink, weight } = req.body;
-        
+
         const frontMatter = {
             layout: layout || 'about',
             title: title || 'About',
@@ -787,7 +779,7 @@ app.post('/vippy/about/save', async (req, res) => {
 
         const fileContent = matter.stringify(content || '', frontMatter);
         await fs.writeFile(ABOUT_PATH, fileContent);
-        
+
         res.redirect('/vippy/about?success=true');
     } catch (e) {
         console.error('Error saving about page:', e);
@@ -812,38 +804,38 @@ app.post('/vippy/vp/create', upload.array('images', 100), async (req, res) => {
         const { title, developer, description, date } = req.body;
         const slug = createSlug(title);
         const actualDate = date || new Date().toISOString().split('T')[0];
-        
+
         const jsonPath = path.join(DATA_DIR, `${slug}.json`);
         const exists = await fs.access(jsonPath).then(() => true).catch(() => false);
         if (exists) {
             return res.status(400).json({ error: 'Album with this name already exists' });
         }
-        
+
         const images = [];
         const files = req.files || [];
-        
+
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
-            const imgNum = String(i).padStart(3, '0');
+            const uniqueId = Date.now().toString(36) + '-' + Math.round(Math.random() * 1e6).toString(36);
             const metadata = await sharp(file.buffer).metadata();
             const aspectRatio = Math.round((metadata.width / metadata.height) * 10000) / 10000;
-            
-            const originalFileName = `${slug}/img${imgNum}.jpg`;
+
+            const originalFileName = `${slug}/${uniqueId}.jpg`;
             let originalBuffer = file.buffer;
-            
+
             if (file.mimetype !== 'image/jpeg') {
                 originalBuffer = await sharp(file.buffer).jpeg({ quality: 95 }).toBuffer();
             }
             await uploadToB2(originalFileName, originalBuffer, 'image/jpeg');
-            
+
             const thumbBuffer = await sharp(file.buffer)
                 .resize(600, null, { withoutEnlargement: true })
                 .webp({ quality: 85 })
                 .toBuffer();
-            
-            const thumbFileName = `${slug}/thumb/img${imgNum}.webp`;
+
+            const thumbFileName = `${slug}/thumb/${uniqueId}.webp`;
             await uploadToB2(thumbFileName, thumbBuffer, 'image/webp');
-            
+
             images.push({
                 url: getCdnUrl(originalFileName),
                 thumb: getCdnUrl(thumbFileName),
@@ -852,16 +844,16 @@ app.post('/vippy/vp/create', upload.array('images', 100), async (req, res) => {
                 height: metadata.height
             });
         }
-        
+
         await fs.writeFile(jsonPath, JSON.stringify(images, null, 2));
-        
+
         const postFileName = `${actualDate}-${slug}.md`;
         const postPath = path.join(POSTS_DIR, postFileName);
         const postContent = generatePostMarkdown({
             title, developer, description, date: actualDate, slug
         });
         await fs.writeFile(postPath, postContent);
-        
+
         res.json({ success: true, slug, message: `Album "${title}" created with ${images.length} images` });
     } catch (err) {
         console.error('Error creating album:', err);
@@ -879,25 +871,25 @@ app.post('/vippy/vp/update/:slug', async (req, res) => {
     try {
         const album = await getAlbum(req.params.slug);
         if (!album) return res.status(404).json({ error: 'Album not found' });
-        
+
         const { title, description, developer, date, tags, cardImage, cardOffset, cardOffsetX, cardZoom, bannerImage, bannerOffset, bannerOffsetX, bannerZoom } = req.body;
-        
+
         let parsedTags = album.tags;
         if (tags !== undefined) {
             parsedTags = typeof tags === 'string' ? tags.split(',').map(t => t.trim()).filter(t => t) : tags;
         }
-        
+
         const newDate = date || album.date;
         const oldPostPath = path.join(POSTS_DIR, album.postFile);
         let newPostPath = oldPostPath;
-        
+
         if (date && date !== album.date) {
             const newFileName = `${date}-${album.slug}.md`;
             newPostPath = path.join(POSTS_DIR, newFileName);
             const exists = await fs.access(oldPostPath).then(() => true).catch(() => false);
             if (exists) await fs.rename(oldPostPath, newPostPath);
         }
-        
+
         const postContent = generatePostMarkdown({
             title: title || album.title,
             description: description !== undefined ? description : album.description,
@@ -914,7 +906,7 @@ app.post('/vippy/vp/update/:slug', async (req, res) => {
             bannerOffsetX: bannerOffsetX !== undefined ? parseInt(bannerOffsetX) : album.bannerOffsetX,
             bannerZoom: bannerZoom !== undefined ? parseInt(bannerZoom) : album.bannerZoom
         });
-        
+
         await fs.writeFile(newPostPath, postContent);
         res.json({ success: true, message: 'Album updated' });
     } catch (err) {
@@ -927,32 +919,32 @@ app.post('/vippy/vp/add-images/:slug', upload.array('images', 100), async (req, 
     try {
         const album = await getAlbum(req.params.slug);
         if (!album) return res.status(404).json({ error: 'Album not found' });
-        
+
         const jsonPath = path.join(DATA_DIR, album.jsonFile);
         const images = [...album.images];
         const files = req.files || [];
         let nextNum = images.length;
-        
+
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
-            const imgNum = String(nextNum + i).padStart(3, '0');
+            const uniqueId = Date.now().toString(36) + '-' + Math.round(Math.random() * 1e6).toString(36);
             const metadata = await sharp(file.buffer).metadata();
             const aspectRatio = Math.round((metadata.width / metadata.height) * 10000) / 10000;
-            
-            const originalFileName = `${album.slug}/img${imgNum}.jpg`;
+
+            const originalFileName = `${album.slug}/${uniqueId}.jpg`;
             let originalBuffer = file.buffer;
             if (file.mimetype !== 'image/jpeg') {
                 originalBuffer = await sharp(file.buffer).jpeg({ quality: 95 }).toBuffer();
             }
             await uploadToB2(originalFileName, originalBuffer, 'image/jpeg');
-            
+
             const thumbBuffer = await sharp(file.buffer)
                 .resize(600, null, { withoutEnlargement: true })
                 .webp({ quality: 85 })
                 .toBuffer();
-            const thumbFileName = `${album.slug}/thumb/img${imgNum}.webp`;
+            const thumbFileName = `${album.slug}/thumb/${uniqueId}.webp`;
             await uploadToB2(thumbFileName, thumbBuffer, 'image/webp');
-            
+
             images.push({
                 url: getCdnUrl(originalFileName),
                 thumb: getCdnUrl(thumbFileName),
@@ -961,7 +953,7 @@ app.post('/vippy/vp/add-images/:slug', upload.array('images', 100), async (req, 
                 height: metadata.height
             });
         }
-        
+
         await fs.writeFile(jsonPath, JSON.stringify(images, null, 2));
         res.json({ success: true, message: `Added ${files.length} images`, totalImages: images.length });
     } catch (err) {
@@ -974,23 +966,41 @@ app.post('/vippy/vp/delete-image/:slug/:index', async (req, res) => {
     try {
         const album = await getAlbum(req.params.slug);
         if (!album) return res.status(404).json({ error: 'Album not found' });
-        
+
         const index = parseInt(req.params.index);
         if (index < 0 || index >= album.images.length) return res.status(400).json({ error: 'Invalid image index' });
-        
+
         const image = album.images[index];
         const urlPath = new URL(image.url).pathname;
         const thumbPath = new URL(image.thumb).pathname;
         const originalFile = urlPath.split('/').slice(-2).join('/');
         const thumbFile = thumbPath.split('/').slice(-3).join('/');
-        
+
         try {
             await deleteFromB2(originalFile);
             await deleteFromB2(thumbFile);
         } catch (e) {
             console.error('Error deleting from B2:', e.message);
         }
-        
+
+        let newCardImage = album.cardImage || 0;
+        let newBannerImage = album.bannerImage || 0;
+
+        if (newCardImage === index) newCardImage = 0;
+        else if (newCardImage > index) newCardImage--;
+
+        if (newBannerImage === index) newBannerImage = 0;
+        else if (newBannerImage > index) newBannerImage--;
+
+        const postPath = path.join(POSTS_DIR, album.postFile);
+        const postContent = generatePostMarkdown({
+            title: album.title, description: album.description, developer: album.developer,
+            date: album.date, tags: album.tags, slug: album.slug, cardImage: newCardImage,
+            cardOffset: album.cardOffset, cardOffsetX: album.cardOffsetX, cardZoom: album.cardZoom,
+            bannerImage: newBannerImage, bannerOffset: album.bannerOffset, bannerOffsetX: album.bannerOffsetX, bannerZoom: album.bannerZoom
+        });
+        await fs.writeFile(postPath, postContent);
+
         const images = album.images.filter((_, i) => i !== index);
         await fs.writeFile(path.join(DATA_DIR, album.jsonFile), JSON.stringify(images, null, 2));
         res.json({ success: true, message: 'Image deleted' });
@@ -1004,7 +1014,7 @@ app.post('/vippy/vp/delete/:slug', async (req, res) => {
     try {
         const album = await getAlbum(req.params.slug);
         if (!album) return res.status(404).json({ error: 'Album not found' });
-        
+
         for (const image of album.images) {
             try {
                 const urlPath = new URL(image.url).pathname;
@@ -1017,12 +1027,12 @@ app.post('/vippy/vp/delete/:slug', async (req, res) => {
                 console.error('Error deleting file from B2:', e.message);
             }
         }
-        
+
         const postPath = path.join(POSTS_DIR, album.postFile);
         const jsonPath = path.join(DATA_DIR, album.jsonFile);
-        await fs.access(postPath).then(() => fs.unlink(postPath)).catch(() => {});
-        await fs.access(jsonPath).then(() => fs.unlink(jsonPath)).catch(() => {});
-        
+        await fs.access(postPath).then(() => fs.unlink(postPath)).catch(() => { });
+        await fs.access(jsonPath).then(() => fs.unlink(jsonPath)).catch(() => { });
+
         res.json({ success: true, message: 'Album deleted' });
     } catch (err) {
         console.error('Error deleting album:', err);
@@ -1050,11 +1060,27 @@ app.post('/vippy/vp/reorder-images/:slug', async (req, res) => {
     try {
         const album = await getAlbum(req.params.slug);
         if (!album) return res.status(404).json({ error: 'Album not found' });
-        
+
         const { order } = req.body;
         if (!Array.isArray(order)) return res.status(400).json({ error: 'Invalid order array' });
-        
+
         const newImages = order.map(i => album.images[i]);
+
+        let newCardImage = album.cardImage !== undefined ? album.cardImage : 0;
+        let newBannerImage = album.bannerImage !== undefined ? album.bannerImage : 0;
+
+        if (order.indexOf(newCardImage) !== -1) newCardImage = order.indexOf(newCardImage);
+        if (order.indexOf(newBannerImage) !== -1) newBannerImage = order.indexOf(newBannerImage);
+
+        const postPath = path.join(POSTS_DIR, album.postFile);
+        const postContent = generatePostMarkdown({
+            title: album.title, description: album.description, developer: album.developer,
+            date: album.date, tags: album.tags, slug: album.slug, cardImage: newCardImage,
+            cardOffset: album.cardOffset, cardOffsetX: album.cardOffsetX, cardZoom: album.cardZoom,
+            bannerImage: newBannerImage, bannerOffset: album.bannerOffset, bannerOffsetX: album.bannerOffsetX, bannerZoom: album.bannerZoom
+        });
+        await fs.writeFile(postPath, postContent);
+
         await fs.writeFile(path.join(DATA_DIR, album.jsonFile), JSON.stringify(newImages, null, 2));
         res.json({ success: true, message: 'Images reordered' });
     } catch (err) {
@@ -1068,13 +1094,13 @@ app.get('/vippy/order', async (req, res) => {
     const order = await getAlbumOrder();
     const orderedAlbums = [];
     const unorderedAlbums = [];
-    
+
     albums.forEach(album => {
         const orderIndex = order.indexOf(album.slug);
         if (orderIndex >= 0) orderedAlbums[orderIndex] = album;
         else unorderedAlbums.push(album);
     });
-    
+
     const sortedAlbums = orderedAlbums.filter(a => a).concat(unorderedAlbums);
     res.render('album-order', { albums: sortedAlbums, order });
 });
@@ -1106,11 +1132,11 @@ app.post('/settings/config', async (req, res) => {
             use_cdn: req.body.use_cdn === true || req.body.use_cdn === 'true',
             cdn_domain: req.body.cdn_domain || ''
         };
-        
+
         await fs.writeFile(B2_CONFIG_PATH, JSON.stringify(newConfig, null, 2));
         b2Config = newConfig;
         initializeB2();
-        
+
         res.json({ success: true, message: 'Configuration saved and applied' });
     } catch (err) {
         console.error('Error saving B2 config:', err);
@@ -1141,7 +1167,7 @@ app.get('/vippy/landing', async (req, res) => {
 app.post('/vippy/landing/save', async (req, res) => {
     try {
         const { title, subtitle, text, buttons } = req.body;
-        
+
         let buttonsArray = [];
         if (buttons) {
             if (Array.isArray(buttons)) {
@@ -1181,18 +1207,18 @@ app.post('/settings/site-config', async (req, res) => {
         // Read current config to preserve comments/structure if possible, 
         // but js-yaml dump will rewrite it. For a simple admin, full rewrite is acceptable.
         // Ideally we would update only specific fields, but YAML parsers usually load/dump the whole object.
-        
+
         const currentContent = await fs.readFile(CONFIG_PATH, 'utf8');
         let currentConfig = yaml.load(currentContent);
-        
+
         // Merge incoming data
         // We expect req.body to have keys like 'title', 'description', 'author', etc.
         const { title, description, url, author_name, author_email, author_github, author_twitter, author_bluesky, vp_show_date, vp_show_tags } = req.body;
-        
+
         if (title) currentConfig.title = title;
         if (description) currentConfig.description = description;
         if (url) currentConfig.url = url;
-        
+
         // Update Author info safely
         if (!currentConfig.author) currentConfig.author = {};
         if (author_name) currentConfig.author.name = author_name;
@@ -1210,7 +1236,7 @@ app.post('/settings/site-config', async (req, res) => {
 
         const newYaml = yaml.dump(currentConfig);
         await fs.writeFile(CONFIG_PATH, newYaml, 'utf8');
-        
+
         res.json({ success: true, message: 'Site configuration updated!' });
     } catch (err) {
         console.error('Error writing _config.yml:', err);
