@@ -8,12 +8,12 @@ categories:
   - virtual-photography
 tags: []
 slug: uncharted-legacy-of-thieves-collection
-card-image: 0
+card-image: 15
 card-offset: 73
-card-offset-x: 42
+card-offset-x: 28
 card-zoom: 100
-banner-image: 0
-banner-offset: 29
+banner-image: 10
+banner-offset: 66
 banner-offset-x: 50
 banner-zoom: 100
 ---
