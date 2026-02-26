@@ -647,42 +647,13 @@ app.post('/vippy/blog/save', upload.single('headerImage'), async (req, res) => {
     }
 });
 
-app.post('/vippy/blog/delete/:fileSlug'app.post('/vippy/blog/delete/:fileSlug', async (req, res) => {
+app.post('/vippy/blog/delete/:fileSlug', async (req, res) => {
     try {
-        const { fileSlug } = req.params;
-
-        // Load all blog posts
-        const posts = await getBlogPosts();
-
-        // Find the exact post
-        const post = posts.find(p => p.fileSlug === fileSlug);
-
-        if (!post) {
-            return res.status(404).json({
-                success: false,
-                error: 'Post not found'
-            });
-        }
-
-        const filePath = path.join(POSTS_DIR, post.filename);
-
-        // Make sure file exists
-        await fs.access(filePath);
-
-        // Delete it
+        const filePath = path.join(POSTS_DIR, req.params.fileSlug + '.md');
         await fs.unlink(filePath);
-
-        return res.json({
-            success: true,
-            message: 'Post deleted successfully'
-        });
-
-    } catch (error) {
-        console.error('Blog delete error:', error);
-        return res.status(500).json({
-            success: false,
-            error: error.message
-        });
+        res.json({ success: true });
+    } catch (e) {
+        res.status(500).json({ success: false, error: e.message });
     }
 });
 
