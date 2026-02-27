@@ -75,5 +75,19 @@
     "aspectRatio": 1,
     "width": 2880,
     "height": 2880
+  },
+  {
+    "url": "https://budi420.s3.eu-central-003.backblazeb2.com/alan-wake-2/mm5b9xow-dkp1.jpg",
+    "thumb": "https://budi420.s3.eu-central-003.backblazeb2.com/alan-wake-2/thumb/mm5b9xow-dkp1.webp",
+    "aspectRatio": 1.5,
+    "width": 4320,
+    "height": 2880
+  },
+  {
+    "url": "https://budi420.s3.eu-central-003.backblazeb2.com/alan-wake-2/mm5balgg-hysi.jpg",
+    "thumb": "https://budi420.s3.eu-central-003.backblazeb2.com/alan-wake-2/thumb/mm5balgg-hysi.webp",
+    "aspectRatio": 2.3336,
+    "width": 5120,
+    "height": 2194
   }
 ]
