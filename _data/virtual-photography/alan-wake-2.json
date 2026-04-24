@@ -89,5 +89,19 @@
     "aspectRatio": 2.3336,
     "width": 5120,
     "height": 2194
+  },
+  {
+    "url": "https://budi420.s3.eu-central-003.backblazeb2.com/alan-wake-2/mocouwbk-3x1g.jpg",
+    "thumb": "https://budi420.s3.eu-central-003.backblazeb2.com/alan-wake-2/thumb/mocouwbk-3x1g.webp",
+    "aspectRatio": 2.6392,
+    "width": 2560,
+    "height": 970
+  },
+  {
+    "url": "https://budi420.s3.eu-central-003.backblazeb2.com/alan-wake-2/mocoweav-ksqu.jpg",
+    "thumb": "https://budi420.s3.eu-central-003.backblazeb2.com/alan-wake-2/thumb/mocoweav-ksqu.webp",
+    "aspectRatio": 2.8277,
+    "width": 5760,
+    "height": 2037
   }
 ]
