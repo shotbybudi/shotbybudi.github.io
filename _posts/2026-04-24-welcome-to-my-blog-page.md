@@ -1,14 +1,19 @@
 ---
-layout: blog-post
-title: "Welcome to Your Blog Template"
-date: 2026-02-02
+layout: post
+title: Welcome to my blog page.
+date: '2026-04-24'
 author: yourname
-categories: [blog]
-tags: [template, welcome, guide]
-image: https://placehold.co/1200x600/16161a/7f5af0?text=Blog+Header
-excerpt: "This is a template blog post to get you started. It shows text formatting, images, and code blocks."
+categories:
+  - blog
+tags:
+  - template
+  - welcome
+  - guide
+image: 'https://placehold.co/1200x600/16161a/7f5af0?text=Blog+Header'
+excerpt: >-
+  This is a template blog post to get you started. It shows text formatting,
+  images, and code blocks.
 ---
-
 # Heading 1: Introduction
 
 This is a **template blog post**. You can use it as a starting point for your own articles. Markdown is supported, so you can easily format your text.
