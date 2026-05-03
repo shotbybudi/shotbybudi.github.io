@@ -17,7 +17,6 @@ author:
   name: budi
   twitter: shotbybudi
   github: shotbybudi
-  instagram: shotbybudi
 permalink: /:categories/:title
 collections:
   projects:
