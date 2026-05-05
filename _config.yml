@@ -62,7 +62,7 @@ site_modules:
   - id: blog
     name: Blog
     url: /blog/
-    enabled: false
+    enabled: true
     icon: bi-journal-text
     admin_url: /vippy/blog
   - id: about
